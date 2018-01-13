@@ -63,6 +63,10 @@ import "s2clientprotocol/ui.proto";
 //                  | ended                                             |                       |
 // save_replay      | in_game                                           |                       |
 //                  | ended (only after a game)                         |                       |
+// map_command      | init_game                                         |                       |
+//                  | in_game                                           |                       |
+//                  | in_replay                                         |                       |
+//                  | ended                                             |                       |
 // replay_info      | any                                               |                       |
 // available_maps   | any                                               |                       |
 // save_map         | any                                               |                       |
@@ -103,6 +107,7 @@ message Request {
     RequestData data = 13;                      // Data about different gameplay elements. May be different for different games.
     RequestQuery query = 14;                    // Additional methods for inspecting game state.
     RequestSaveReplay save_replay = 15;         // Generates a replay.
+    RequestMapCommand map_command = 22;         // Executes a particular trigger through a string interface
 
     // Other.
     RequestReplayInfo replay_info = 16;         // Returns metadata about a replay file. Does not load the replay.
@@ -136,6 +141,7 @@ message Response {
     ResponseData data = 13;
     ResponseQuery query = 14;
     ResponseSaveReplay save_replay = 15;
+    ResponseMapCommand map_command = 22;
 
     ResponseReplayInfo replay_info = 16;
     ResponseAvailableMaps available_maps = 17;
@@ -246,11 +252,13 @@ message ResponseJoinGame {
 
 //-----------------------------------------------------------------------------
 message RequestRestartGame {
+  optional bool hard_reset = 1;
 }
 
 message ResponseRestartGame {
   enum Error {
     LaunchError = 1;
+    NoRestartTriggerError = 2;
   }
   optional Error error = 1;
   optional string error_details = 2;
@@ -279,6 +287,19 @@ message ResponseStartReplay {
     InvalidObservedPlayerId = 5;
     MissingOptions = 6;
     LaunchError = 7;
+  }
+  optional Error error = 1;
+  optional string error_details = 2;
+}
+
+//-----------------------------------------------------------------------------
+message RequestMapCommand {
+  optional string trigger_cmd = 1;
+}
+
+message ResponseMapCommand {
+  enum Error {
+    NoTriggerError = 1;
   }
   optional Error error = 1;
   optional string error_details = 2;
