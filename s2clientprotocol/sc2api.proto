@@ -63,9 +63,7 @@ import "s2clientprotocol/ui.proto";
 //                  | ended                                             |                       |
 // save_replay      | in_game                                           |                       |
 //                  | ended (only after a game)                         |                       |
-// map_command      | init_game                                         |                       |
-//                  | in_game                                           |                       |
-//                  | in_replay                                         |                       |
+// map_command      | in_game                                           |                       |
 //                  | ended                                             |                       |
 // replay_info      | any                                               |                       |
 // available_maps   | any                                               |                       |
