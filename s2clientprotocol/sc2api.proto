@@ -36,7 +36,7 @@ import "s2clientprotocol/ui.proto";
 //                  | ended (singleplayer only)                         | init_game             |
 // join_game*       | init_game (singleplayer or multiplayer host only) | in_game               |
 //                  | launched (multiplayer client only)                | in_game               |
-// restart_game     | ended (singleplayer only)                         | in_game               |
+// restart_game     | ended                                             | in_game               |
 // start_replay     | launched                                          | in_replay             |
 //                  | ended (singleplayer only)                         |                       |
 // leave_game       | in_game (required when finishing multiplayer)     | launched              |
@@ -250,16 +250,15 @@ message ResponseJoinGame {
 
 //-----------------------------------------------------------------------------
 message RequestRestartGame {
-  optional bool hard_reset = 1;
 }
 
 message ResponseRestartGame {
   enum Error {
     LaunchError = 1;
-    NoRestartTriggerError = 2;
   }
   optional Error error = 1;
   optional string error_details = 2;
+  optional bool need_multiplayer_hard_reset = 3;
 }
 
 //-----------------------------------------------------------------------------
