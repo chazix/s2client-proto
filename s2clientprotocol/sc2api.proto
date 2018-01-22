@@ -255,10 +255,10 @@ message RequestRestartGame {
 message ResponseRestartGame {
   enum Error {
     LaunchError = 1;
+    NeedMultiplayerHardReset = 2;
   }
   optional Error error = 1;
   optional string error_details = 2;
-  optional bool need_multiplayer_hard_reset = 3;
 }
 
 //-----------------------------------------------------------------------------
