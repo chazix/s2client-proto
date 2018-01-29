@@ -291,12 +291,17 @@ message ResponseStartReplay {
 
 //-----------------------------------------------------------------------------
 message RequestMapCommand {
-  optional string trigger_cmd = 1;
+  oneof CommandChoice {
+    bool custom = 1;
+    RequestRestartGame restart_game = 2;
+  }
+  optional string trigger_cmd = 3;
 }
 
 message ResponseMapCommand {
   enum Error {
     NoTriggerError = 1;
+    NeedRestartRequest = 2;
   }
   optional Error error = 1;
   optional string error_details = 2;
