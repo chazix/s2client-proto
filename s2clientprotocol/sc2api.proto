@@ -251,13 +251,14 @@ message ResponseJoinGame {
 message RequestRestartGame {
 }
 
+// The defaultRestartGameLoops can be specified with the --restartloops sc2 command line argument (1<<18) by default
 message ResponseRestartGame {
   enum Error {
     LaunchError = 1;
   }
   optional Error error = 1;
   optional string error_details = 2;
-  optional bool need_hard_reset = 3;
+  optional bool need_hard_reset = 3;  // This will occur once the simulation_loop is greater then defaultRestartGameLoops
 }
 
 //-----------------------------------------------------------------------------
@@ -382,11 +383,15 @@ message ResponseObserverAction  {
 
 //-----------------------------------------------------------------------------
 message RequestStep {
-  optional uint32 count = 1;                    // Number of game loops to simulate for the next frame.
+  optional uint32 count = 1;               // Number of game loops to simulate for the next frame.
 }
 
 message ResponseStep {
-  optional uint32 real_game_loop = 1;
+  //  Max simulation_loop is (1<<31)-1 before "end of time" will occur
+  //  The "end of time" is classified as the maximum number of game loops or absolute game time
+  //  representable as a positive fixed point number.
+  //  When we reach the "end of time", permanently pause the game and end the game for all.
+  optional uint32 simulation_loop = 1;
 }
 
 //-----------------------------------------------------------------------------
