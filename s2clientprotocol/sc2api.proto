@@ -251,7 +251,7 @@ message ResponseJoinGame {
 message RequestRestartGame {
 }
 
-// The defaultRestartGameLoops can be specified with the --restartloops sc2 command line argument (1<<18) by default
+// The defaultRestartGameLoops is specified to be (1<<18) by default
 message ResponseRestartGame {
   enum Error {
     LaunchError = 1;
